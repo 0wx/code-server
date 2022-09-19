@@ -1,0 +1,17 @@
+name: Publish to Docker Hub
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    name: deploy to server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dokku Deploy action
+        uses: idoberko2/dokku-deploy-github-action@4b326b36625e4a10add5f9601e8ffbaf048444b9
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEYS }}
+          dokku-host: ${{ secrets.HOST }}
+          app-name: ${{ secrets.APP }}
+          remote-branch: main
