@@ -4,14 +4,16 @@ on:
     branches:
       - main
 jobs:
-  deploy:
-    name: deploy to server
+ deploy:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip deploy]')"
     steps:
-      - name: Dokku Deploy action
-        uses: idoberko2/dokku-deploy-github-action@4b326b36625e4a10add5f9601e8ffbaf048444b9
-        with:
-          ssh-private-key: ${{ secrets.SSH_KEYS }}
-          dokku-host: ${{ secrets.HOST }}
-          app-name: ${{ secrets.APP }}
-          remote-branch: main
+    - uses: actions/checkout@v2
+    - run: git fetch --unshallow
+    - name: Dokku Deploy action
+      uses: idoberko2/dokku-deploy-github-action@dd8a6aa3f08c890a24466a4dcd98165878fe3efb
+      with:
+        ssh-private-key: ${{ secrets.SSH_KEYS }}
+        dokku-host: ${{ secrets.HOST }}
+        app-name: ${{ secrets.APP }}
+        remote-branch: main
