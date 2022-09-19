@@ -1,5 +1,5 @@
 # Start from the code-server Debian base image
-FROM codercom/code-server:4.0.2
+FROM codercom/code-server:latest
 
 USER coder
 
@@ -35,7 +35,7 @@ RUN sudo chown -R coder:coder /home/coder/.local
 # -----------
 
 # Port
-ENV PORT=8080
+ENV PORT=5000
 
 # Use our custom entrypoint script first
 COPY deploy-container/entrypoint.sh /usr/bin/deploy-container-entrypoint.sh
